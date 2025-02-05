@@ -16,7 +16,12 @@ services:
     restart: always
     ports:
       - 8001:8000
-      
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gpt-researcher.rule=Host(`gptr.sync.com.br`)" # Substitua 'seu-dominio-aqui' pelo seu domínio real
+      - "traefik.http.routers.gpt-researcher.middlewares=office-ip-whitelist"
+      - "traefik.http.middlewares.office-ip-whitelist.ipwhitelist.sourcerange=177.115.216.22/32"
+
   gptr-nextjs:
     pull_policy: build
     image: gptresearcher/gptr-nextjs
